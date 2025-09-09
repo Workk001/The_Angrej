@@ -66,61 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
             slider.addEventListener('mouseleave', startAutoSlide);
         }
     }
-    // Visit store functionality
-    const visitStoreButtons = document.querySelectorAll('.visit-store');
-    
-    visitStoreButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.stopPropagation();
-            
-            // Get product info
-            const productCard = this.closest('.product-card');
-            const productName = productCard.querySelector('h4').textContent;
-            
-            // Add visual feedback
-            const originalText = this.textContent;
-            this.textContent = 'Visit Us!';
-            this.style.background = 'linear-gradient(45deg, #ff6b6b, #ff8e8e)';
-            
-            // Show notification
-            showNotification(`Visit our store to buy ${productName}!`);
-            
-            // Reset button after 2 seconds
-            setTimeout(() => {
-                this.textContent = originalText;
-                this.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
-            }, 2000);
-        });
-    });
-    
-    // Info card interactions
-    const infoCards = document.querySelectorAll('.info-card');
-    
-    infoCards.forEach(card => {
-        card.addEventListener('click', function() {
-            const infoTitle = this.querySelector('h4').textContent;
-            showNotification(`Learn more about ${infoTitle}...`);
-            
-            // Add visual feedback
-            this.style.transform = 'translateY(-5px) scale(1.02)';
-            setTimeout(() => {
-                this.style.transform = 'translateY(-5px) scale(1)';
-            }, 150);
-        });
-    });
-    
-    // Product card interactions
-    const productCards = document.querySelectorAll('.product-card');
-    
-    productCards.forEach(card => {
-        card.addEventListener('click', function(e) {
-            // Don't trigger if clicking the add to cart button
-            if (e.target.classList.contains('add-to-cart')) return;
-            
-            const productName = this.querySelector('h4').textContent;
-            showNotification(`Viewing ${productName} details...`);
-        });
-    });
     
     // Contact info interaction
     const contactInfo = document.querySelector('.contact-info');
