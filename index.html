@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Business Showcase - Three Specialized Stores</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="main-header">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="logo-3d">
+                        <i class="fas fa-store"></i>
+                    </div>
+                </div>
+                <h1 class="title-animated">Our Business Showcase</h1>
+                <p class="subtitle-animated">Discover our three specialized stores - Visit us for quality products and excellent service</p>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="3">0</span>
+                        <span class="stat-label">Stores</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="5">0 </span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="3000">0</span>
+                        <span class="stat-label">Happy Customers</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="stores-grid">
+            <div class="store-card modern-card" onclick="navigateToStore('clothing1')" data-aos="fade-up" data-aos-delay="100">
+                <div class="card-glow"></div>
+                <div class="store-image">
+                    <div class="logo-3d-container">
+                        <div class="logo-3d logo-angrej">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                    </div>
+                    <img src="https://ik.imagekit.io/warriordc/Angrej/Angrej%20shop%20front.jpg?updatedAt=1757069443454" alt="The Angrej Logo" class="store-logo">
+                    <div class="image-overlay">
+                        <div class="overlay-content">
+                            <span class="store-icon"></span>
+                            <div class="hover-text">Explore Collection</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="store-info">
+                    <div class="store-badge">Premium</div>
+                    <h3 class="store-title">The Angrej</h3>
+                    <p class="store-description">Men's clothing store</p>
+                    <div class="store-features">
+                        <span class="feature-tag">Luxury</span>
+                        <span class="feature-tag">Modern</span>
+                        <span class="feature-tag">Premium</span>
+                    </div>
+                    <div class="store-tag">Men's Clothing</div>
+                    <div class="card-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="store-card modern-card" onclick="navigateToStore('clothing2')" data-aos="fade-up" data-aos-delay="200">
+                <div class="card-glow"></div>
+                <div class="store-image">
+                    <div class="logo-3d-container">
+                        <div class="logo-3d logo-lady">
+                            <i class="fas fa-female"></i>
+                        </div>
+                    </div>
+                    <img src="https://ik.imagekit.io/warriordc/The%20lady/the%20lady.jpg?updatedAt=1757074294004" alt="The Lady by The Angrej Logo" class="store-logo">
+                    <div class="image-overlay">
+                        <div class="overlay-content">
+                            <span class="store-icon"></span>
+                            <div class="hover-text">Discover Style</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="store-info">
+                    <div class="store-badge">Elegant</div>
+                    <h3 class="store-title">The Lady by The Angrej</h3>
+                    <p class="store-description">Ladies clothing store</p>
+                    <div class="store-features">
+                        <span class="feature-tag">Elegant</span>
+                        <span class="feature-tag">Feminine</span>
+                        <span class="feature-tag">Trendy</span>
+                    </div>
+                    <div class="store-tag">Ladies Clothing</div>
+                    <div class="card-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="store-card modern-card" onclick="navigateToStore('accessories')" data-aos="fade-up" data-aos-delay="300">
+                <div class="card-glow"></div>
+                <div class="store-image">
+                    <div class="logo-3d-container">
+                        <div class="logo-3d logo-accessories">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                    </div>
+                    <img src="https://ik.imagekit.io/warriordc/Vaibhav%20Accessories/vaibhav%20accessories.jpg?updatedAt=1757074777544" alt="Vaibhav Accessories Logo" class="store-logo">
+                    <div class="image-overlay">
+                        <div class="overlay-content">
+                            <span class="store-icon"></span>
+                            <div class="hover-text">Shop Accessories</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="store-info">
+                    <div class="store-badge">Luxury</div>
+                    <h3 class="store-title">Vaibhav Accessories</h3>
+                    <p class="store-description">Belt, wallet, goggles, watch, leather bag, deo, itra, perfume & All Men's Accessories</p>
+                    <div class="store-features">
+                        <span class="feature-tag">Luxury</span>
+                        <span class="feature-tag">Premium</span>
+                        <span class="feature-tag">Quality</span>
+                    </div>
+                    <div class="store-tag">Men's Accessories</div>
+                    <div class="card-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

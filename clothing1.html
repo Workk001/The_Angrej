@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Angrej - Men's Clothing Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="store-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="angrej-theme">
+    <nav class="store-nav">
+        <div class="nav-container">
+            <a href="index.html" class="back-btn">← Back to Stores</a>
+            <h1>The Angrej</h1>
+            <div class="nav-actions">
+                <span class="contact-info">Contact Us</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="store-container">
+        <!-- Store Image Section -->
+        <div class="store-image-section angrej-image-section">
+            <div class="store-image-container">
+                <div class="main-store-image angrej-main-image"></div>
+                <div class="store-image-overlay">
+                    <div class="store-brand">
+                        <h1>THE ANGREJ</h1>
+                        <p>Premium Men's Clothing</p>
+                        <div class="store-tagline">Where Style Meets Sophistication</div>
+                        <div class="store-contact-info">
+                            <div class="contact-item">
+                                <span class="contact-label">Hours:</span>
+                                <span class="contact-value">Mon-Sat: 10AM-8PM | Sun: 11AM-6PM</span>
+                            </div>
+                            <div class="contact-item">
+                                <span class="contact-label">Contact:</span>
+                                <span class="contact-value">+91-XXXXXXXXXX | theangrej@example.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Image Slider -->
+        <div class="hero-slider">
+            <div class="slider-container">
+                <div class="slide active">
+                    <img src="https://ik.imagekit.io/warriordc/Angrej/Angrej%20shop%20front.jpg?updatedAt=1757069443454" alt="Premium Men's Fashion" class="slide-image">
+                    <div class="slide-content">
+                        <h3>Premium Men's Fashion</h3>
+                        <p>Discover our latest collection</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="https://ik.imagekit.io/warriordc/Angrej/Angrej%20counter2_An3QMQeFo?updatedAt=1757069443464" alt="Quality & Style" class="slide-image">
+                   
+                </div>
+                <div class="slide">
+                    <img src="https://ik.imagekit.io/warriordc/Angrej/Angrej%20interior2.jpg?updatedAt=1757074020238" alt="Modern Gentleman" class="slide-image">
+                  
+                </div>
+                <div class="slide">
+                    <img src="https://ik.imagekit.io/warriordc/Angrej/Angrej%20interior.jpg?updatedAt=1757074147929" alt="Modern Gentleman" class="slide-image">
+                  
+                </div>
+            </div>
+            <div class="slider-nav">
+                <button class="prev-btn">‹</button>
+                <button class="next-btn">›</button>
+            </div>
+            <div class="slider-dots">
+                <span class="dot active" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <span class="dot" onclick="currentSlide(4)"></span>
+            </div>
+        </div>
+
+        <!-- Video Section -->
+        <div class="video-section">
+            <h3>Experience Our Store</h3>
+            <div class="video-grid">
+                <div class="video-card">
+                    <video class="video-player" controls poster="images/angrej-video1-poster.jpg">
+                        <source src="videos/angrej-interior-tour.mp4" type="video/mp4">
+                        <source src="videos/angrej-interior-tour.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay">
+                        <div class="play-button">▶</div>
+                        <p>Store Interior Tour</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <video class="video-player" controls poster="images/angrej-video2-poster.jpg">
+                        <source src="videos/angrej-peak-hours.mp4" type="video/mp4">
+                        <source src="videos/angrej-peak-hours.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay">
+                        <div class="play-button">▶</div>
+                        <p>Peak Hours & Atmosphere</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <video class="video-player" controls poster="images/angrej-video3-poster.jpg">
+                        <source src="videos/angrej-customer-experience.mp4" type="video/mp4">
+                        <source src="videos/angrej-customer-experience.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay">
+                        <div class="play-button">▶</div>
+                        <p>Customer Experience</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <div class="about-section">
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>About The Angrej</h3>
+                    <p>Since our establishment, The Angrej has been the go-to destination for discerning gentlemen who appreciate quality, style, and sophistication. We curate the finest men's clothing that combines timeless elegance with contemporary trends.</p>
+                    <p>Our expert team ensures every customer finds the perfect fit and style that reflects their personality and lifestyle. From formal business attire to casual weekend wear, we have everything a modern gentleman needs.</p>
+                    <div class="store-specialties">
+                        <div class="specialty-item">
+                            <span class="specialty-icon">👔</span>
+                            <span>Premium Tailoring</span>
+                        </div>
+                        <div class="specialty-item">
+                            <span class="specialty-icon">🎯</span>
+                            <span>Perfect Fit Guarantee</span>
+                        </div>
+                        <div class="specialty-item">
+                            <span class="specialty-icon">⭐</span>
+                            <span>Luxury Fabrics</span>
+                        </div>
+                    </div>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <h4>500+</h4>
+                            <p>Happy Customers</p>
+                        </div>
+                        <div class="stat">
+                            <h4>5+</h4>
+                            <p>Years Experience</p>
+                        </div>
+                        <div class="stat">
+                            <h4>1000+</h4>
+                            <p>Products Available</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="image-placeholder about-img"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="map-section">
+        <div class="map-container">
+            <h3>Visit Our Store</h3>
+            <div class="map-wrapper">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.1234567890!2d77.1234567890!3d28.1234567890!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjjCsDA3JzI0LjQiTiA3N8KwMDcnMjQuNCJF!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin"
+                    width="100%" 
+                    height="300" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+                <div class="map-overlay">
+                    <a href="https://maps.app.goo.gl/Hpe2x3kUpyJ9Ethx8" target="_blank" class="map-link">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>View on Google Maps</span>
+                    </a>
+                </div>
+            </div>
+            <div class="map-info">
+                <p><strong>The Angrej</strong> - Premium Men's Clothing</p>
+                <p>📍 Located in the heart of the city</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="store-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>The Angrej</h2>
+                <p>Premium Men's Clothing</p>
+            </div>
+            <div class="footer-info">
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-media">
+                        <a href="#" class="social-link facebook" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link instagram" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>📍 Store Address</p>
+                    <p>📞 +91-XXXXXXXXXX</p>
+                    <p>✉️ theangrej@example.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Store Hours</h4>
+                    <p>Mon-Sat: 10:00 AM - 8:00 PM</p>
+                    <p>Sunday: 11:00 AM - 6:00 PM</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 The Angrej. All rights reserved.</p>
+            <div class="watermark">THE ANGREJ</div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="contact-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Contact The Angrej</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="contact-options">
+                    <button class="contact-btn call-btn" onclick="contactViaCall()">
+                        <span class="contact-icon">📞</span>
+                        <div class="contact-text">
+                            <h4>Call Us</h4>
+                            <p>+91-XXXXXXXXXX</p>
+                        </div>
+                    </button>
+                    <button class="contact-btn whatsapp-btn" onclick="contactViaWhatsApp()">
+                        <span class="contact-icon">💬</span>
+                        <div class="contact-text">
+                            <h4>WhatsApp</h4>
+                            <p>Chat with us instantly</p>
+                        </div>
+                    </button>
+                    <button class="contact-btn email-btn" onclick="contactViaEmail()">
+                        <span class="contact-icon">✉️</span>
+                        <div class="contact-text">
+                            <h4>Email</h4>
+                            <p>theangrej@example.com</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="store-script.js"></script>
+</body>
+</html>
