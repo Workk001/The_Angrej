@@ -121,14 +121,14 @@ function navigateToStore(storeType) {
     setTimeout(() => {
         // Navigate to the appropriate store page
         switch(storeType) {
-            case 'clothing1':
-                window.location.href = 'clothing1.html';
+            case 'the_Angrej':
+                window.location.href = 'the_Angrej.html';
                 break;
-            case 'clothing2':
-                window.location.href = 'clothing2.html';
+            case 'the_Lady':
+                window.location.href = 'the_Lady.html';
                 break;
-            case 'accessories':
-                window.location.href = 'accessories.html';
+            case 'vaibhav_accessories':
+                window.location.href = 'vaibhav_accessories.html';
                 break;
             default:
                 console.log('Unknown store type:', storeType);

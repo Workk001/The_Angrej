@@ -162,21 +162,45 @@ function closeContactModal() {
 
 // Contact methods
 function contactViaCall() {
-    showNotification('Calling store... Please dial +91-XXXXXXXXXX');
+    // Get the current page to determine which store
+    const currentPage = window.location.pathname.split('/').pop();
+    let phoneNumber = '+91-9166334412';
+    
+    if (currentPage === 'vaibhav_accessories.html') {
+        phoneNumber = '+91-9950657242';
+    }
+    
+    showNotification(`Calling store... Please dial ${phoneNumber}`);
     closeContactModal();
 }
 
 function contactViaWhatsApp() {
+    // Get the current page to determine which store
+    const currentPage = window.location.pathname.split('/').pop();
+    let whatsappNumber = '919166334412';
+    
+    if (currentPage === 'vaibhav_accessories.html') {
+        whatsappNumber = '919950657242';
+    }
+    
     showNotification('Opening WhatsApp...');
     // In a real implementation, you would open WhatsApp with the store's number
-    // window.open('https://wa.me/91XXXXXXXXXX', '_blank');
+    window.open(`https://wa.me/${whatsappNumber}`, '_blank');
     closeContactModal();
 }
 
 function contactViaEmail() {
+    // Get the current page to determine which store
+    const currentPage = window.location.pathname.split('/').pop();
+    let email = 'store@example.com';
+    
+    if (currentPage === 'vaibhav_accessories.html') {
+        email = 'vaibhavaccessories@gmail.com';
+    }
+    
     showNotification('Opening email client...');
     // In a real implementation, you would open the default email client
-    // window.location.href = 'mailto:store@example.com';
+    window.location.href = `mailto:${email}`;
     closeContactModal();
 }
 
