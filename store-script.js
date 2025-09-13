@@ -83,6 +83,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const playButton = card.querySelector('.play-button');
         
         if (video && overlay && playButton) {
+            // iOS compatibility - ensure video can play inline
+            video.setAttribute('playsinline', 'true');
+            video.setAttribute('webkit-playsinline', 'true');
+            
             // Hide overlay when video starts playing
             video.addEventListener('play', function() {
                 overlay.style.opacity = '0';
@@ -98,11 +102,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 overlay.style.opacity = '1';
             });
             
+            // Handle iOS video loading issues
+            video.addEventListener('loadstart', function() {
+                console.log('Video loading started');
+            });
+            
+            video.addEventListener('canplay', function() {
+                console.log('Video can start playing');
+            });
+            
+            video.addEventListener('error', function(e) {
+                console.log('Video error:', e);
+            });
+            
             // Play/pause video when clicking the overlay
             overlay.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (video.paused) {
-                    video.play();
+                    video.play().catch(function(error) {
+                        console.log('Play failed:', error);
+                    });
                 } else {
                     video.pause();
                 }
@@ -113,7 +132,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 e.stopPropagation();
                 if (video.paused) {
-                    video.play();
+                    video.play().catch(function(error) {
+                        console.log('Play failed:', error);
+                    });
                 } else {
                     video.pause();
                 }
