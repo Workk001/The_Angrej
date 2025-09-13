@@ -797,6 +797,15 @@ img {
     perspective: 1000;
 }
 
+/* Ensure video controls are visible on iOS */
+.video-player::-webkit-media-controls {
+    display: block !important;
+}
+
+.video-player::-webkit-media-controls-panel {
+    display: block !important;
+}
+
 /* Ensure video overlay is touchable on iOS */
 .video-overlay {
     -webkit-touch-callout: none;
@@ -838,10 +847,10 @@ img {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.3s ease;
     border-radius: 12px;
-    pointer-events: none;
+    pointer-events: auto;
 }
 
 .video-card:hover .video-overlay {
@@ -901,10 +910,71 @@ img {
     font-size: 3rem;
     margin-bottom: 15px;
     transition: all 0.3s ease;
+    cursor: pointer;
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.video-card:hover .play-button {
+.play-button:hover {
+    background: rgba(255, 255, 255, 1);
     transform: scale(1.2);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Play button state */
+.play-button.play {
+    background: rgba(76, 175, 80, 0.9);
+    color: white;
+}
+
+.play-button.play:hover {
+    background: rgba(76, 175, 80, 1);
+    transform: scale(1.2);
+}
+
+/* Pause button state */
+.play-button.pause {
+    background: rgba(255, 152, 0, 0.9);
+    color: white;
+}
+
+.play-button.pause:hover {
+    background: rgba(255, 152, 0, 1);
+    transform: scale(1.2);
+}
+
+/* Play text styling */
+.play-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    margin: 10px 0;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
 }
 
 /* About Section */
@@ -1862,6 +1932,48 @@ img {
     line-height: 1.4;
 }
 
+/* Mobile-specific video overlay styles */
+@media (max-width: 768px) {
+    .video-overlay {
+        opacity: 1 !important;
+        background: rgba(0, 0, 0, 0.4);
+        pointer-events: auto;
+    }
+    
+    .video-card:hover .video-overlay {
+        opacity: 1 !important;
+    }
+    
+    .play-button {
+        pointer-events: auto;
+        cursor: pointer;
+    }
+    
+    .play-text {
+        pointer-events: auto;
+        cursor: pointer;
+    }
+    
+    /* Make video cards more touch-friendly on mobile */
+    .video-card {
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Ensure touch targets are large enough */
+    .play-button {
+        min-width: 60px;
+        min-height: 60px;
+        touch-action: manipulation;
+    }
+    
+    /* Add visual feedback for touch */
+    .video-card:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
     .nav-container {
@@ -2190,6 +2302,27 @@ img {
         gap: 8px;
     }
     
+    .play-button {
+        width: 50px;
+        height: 50px;
+        font-size: 2rem;
+    }
+    
+    .play-text {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }
+    
+    /* Ensure overlay is always visible on very small screens */
+    .video-overlay {
+        opacity: 1 !important;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    
+    .video-card:hover .video-overlay {
+        opacity: 1 !important;
+    }
+    
     .social-link {
         width: 35px;
         height: 35px;
@@ -2283,6 +2416,17 @@ img {
     
     .video-player {
         height: 100%;
+    }
+    
+    .play-button {
+        width: 60px;
+        height: 60px;
+        font-size: 2.5rem;
+    }
+    
+    .play-text {
+        font-size: 1rem;
+        letter-spacing: 1.5px;
     }
     
     .slide-content h3 {

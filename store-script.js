@@ -77,6 +77,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Video interaction functionality with iOS compatibility
     const videoCards = document.querySelectorAll('.video-card');
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    
     videoCards.forEach(card => {
         const video = card.querySelector('.video-player');
         const overlay = card.querySelector('.video-overlay');
@@ -87,52 +89,137 @@ document.addEventListener('DOMContentLoaded', function() {
             video.setAttribute('playsinline', 'true');
             video.setAttribute('webkit-playsinline', 'true');
             video.setAttribute('x-webkit-airplay', 'allow');
-            video.setAttribute('muted', 'false');
+            
+            // Remove any autoplay or muted attributes that might interfere
+            video.removeAttribute('autoplay');
+            video.removeAttribute('muted');
+            video.removeAttribute('loop');
             
             // Force load video for iOS
             video.load();
             
-            // iOS-specific video play function
-            function playVideo() {
-                const playPromise = video.play();
+            // Video play/pause toggle function
+            function toggleVideoPlayback() {
+                console.log('Toggling video playback, current state:', video.paused ? 'paused' : 'playing');
                 
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        console.log('Video started playing');
-                        overlay.style.opacity = '0';
-                    }).catch(error => {
-                        console.log('Video play failed:', error);
-                        // Try to play with muted first (iOS workaround)
-                        video.muted = true;
-                        video.play().then(() => {
-                            console.log('Video started playing (muted)');
-                            overlay.style.opacity = '0';
-                            // Unmute after a short delay
-                            setTimeout(() => {
-                                video.muted = false;
-                            }, 100);
-                        }).catch(err => {
-                            console.log('Video play failed even with muted:', err);
-                            // Show error message to user
-                            overlay.innerHTML = '<div class="play-button">⚠️</div><p>Tap to play video</p>';
-                        });
-                    });
+                if (video.paused) {
+                    // Play video
+                    if (isIOS) {
+                        // iOS specific handling
+                        video.load();
+                        
+                        // Wait for video to be ready
+                        const tryPlay = () => {
+                            if (video.readyState >= 2) {
+                                video.play().then(() => {
+                                    console.log('Video started playing on iOS');
+                                    overlay.style.opacity = '0.3';
+                                    updatePlayPauseButton();
+                                }).catch(error => {
+                                    console.log('iOS video play failed:', error);
+                                    // Try one more time after a short delay
+                                    setTimeout(() => {
+                                        video.play().then(() => {
+                                            console.log('Video started playing on iOS (retry)');
+                                            overlay.style.opacity = '0.3';
+                                            updatePlayPauseButton();
+                                        }).catch(err => {
+                                            console.log('iOS video play failed (retry):', err);
+                                            overlay.innerHTML = '<div class="play-button play">▶</div><div class="play-text">PLAY</div><p>Tap to play video</p>';
+                                        });
+                                    }, 500);
+                                });
+                            } else {
+                                // Wait for video to load
+                                video.addEventListener('canplay', tryPlay, { once: true });
+                            }
+                        };
+                        
+                        tryPlay();
+                    } else {
+                        // Non-iOS handling
+                        if (video.readyState >= 2) {
+                            const playPromise = video.play();
+                            
+                            if (playPromise !== undefined) {
+                                playPromise.then(() => {
+                                    console.log('Video started playing');
+                                    overlay.style.opacity = '0.3';
+                                    updatePlayPauseButton();
+                                }).catch(error => {
+                                    console.log('Video play failed:', error);
+                                    overlay.innerHTML = '<div class="play-button play">▶</div><div class="play-text">PLAY</div><p>Tap to play video</p>';
+                                });
+                            }
+                        } else {
+                            video.addEventListener('canplay', function() {
+                                const playPromise = video.play();
+                                if (playPromise !== undefined) {
+                                    playPromise.then(() => {
+                                        console.log('Video started playing after load');
+                                        overlay.style.opacity = '0.3';
+                                        updatePlayPauseButton();
+                                    }).catch(error => {
+                                        console.log('Video play failed after load:', error);
+                                        overlay.innerHTML = '<div class="play-button play">▶</div><div class="play-text">PLAY</div><p>Tap to play video</p>';
+                                    });
+                                }
+                            }, { once: true });
+                        }
+                    }
+                } else {
+                    // Pause video
+                    video.pause();
+                    console.log('Video paused');
+                    overlay.style.opacity = '1';
+                    updatePlayPauseButton();
                 }
             }
             
-            // Hide overlay when video starts playing
+            // Function to update play/pause button and text
+            function updatePlayPauseButton() {
+                const playButton = overlay.querySelector('.play-button');
+                const playText = overlay.querySelector('.play-text');
+                
+                if (video.paused) {
+                    playButton.innerHTML = '▶';
+                    playButton.classList.remove('pause');
+                    playButton.classList.add('play');
+                    if (playText) {
+                        playText.textContent = 'PLAY';
+                        playText.style.display = 'block';
+                    }
+                } else {
+                    playButton.innerHTML = '⏸';
+                    playButton.classList.remove('play');
+                    playButton.classList.add('pause');
+                    if (playText) {
+                        playText.textContent = 'PAUSE';
+                        playText.style.display = 'block';
+                    }
+                }
+            }
+            
+            // Hide overlay when video starts playing (less opacity on mobile)
             video.addEventListener('play', function() {
-                overlay.style.opacity = '0';
+                if (window.innerWidth <= 768) {
+                    overlay.style.opacity = '0.1'; // Very subtle on mobile
+                } else {
+                    overlay.style.opacity = '0.3'; // More visible on desktop
+                }
+                updatePlayPauseButton();
             });
             
             // Show overlay when video is paused
             video.addEventListener('pause', function() {
                 overlay.style.opacity = '1';
+                updatePlayPauseButton();
             });
             
             // Show overlay when video ends
             video.addEventListener('ended', function() {
                 overlay.style.opacity = '1';
+                updatePlayPauseButton();
             });
             
             // Handle iOS video loading issues
@@ -153,33 +240,33 @@ document.addEventListener('DOMContentLoaded', function() {
             overlay.addEventListener('touchstart', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                playVideo();
+                toggleVideoPlayback();
             }, { passive: false });
             
             // Play/pause video when clicking the overlay
             overlay.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                playVideo();
+                toggleVideoPlayback();
             });
             
             // Play/pause video when clicking the play button
             playButton.addEventListener('touchstart', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                playVideo();
+                toggleVideoPlayback();
             }, { passive: false });
             
             playButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                playVideo();
+                toggleVideoPlayback();
             });
             
             // Additional iOS touch events
             video.addEventListener('touchstart', function(e) {
                 e.preventDefault();
-                playVideo();
+                toggleVideoPlayback();
             }, { passive: false });
         }
     });
@@ -320,3 +407,24 @@ function smoothScrollTo(element) {
         block: 'start'
     });
 }
+
+// Handle window resize for mobile/desktop switching
+window.addEventListener('resize', function() {
+    const videoCards = document.querySelectorAll('.video-card');
+    videoCards.forEach(card => {
+        const video = card.querySelector('.video-player');
+        const overlay = card.querySelector('.video-overlay');
+        
+        if (video && overlay) {
+            if (video.paused) {
+                overlay.style.opacity = '1';
+            } else {
+                if (window.innerWidth <= 768) {
+                    overlay.style.opacity = '0.1';
+                } else {
+                    overlay.style.opacity = '0.3';
+                }
+            }
+        }
+    });
+});
