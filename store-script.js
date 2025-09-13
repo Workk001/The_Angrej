@@ -74,6 +74,52 @@ document.addEventListener('DOMContentLoaded', function() {
             openContactModal();
         });
     }
+    
+    // Video interaction functionality
+    const videoCards = document.querySelectorAll('.video-card');
+    videoCards.forEach(card => {
+        const video = card.querySelector('.video-player');
+        const overlay = card.querySelector('.video-overlay');
+        const playButton = card.querySelector('.play-button');
+        
+        if (video && overlay && playButton) {
+            // Hide overlay when video starts playing
+            video.addEventListener('play', function() {
+                overlay.style.opacity = '0';
+            });
+            
+            // Show overlay when video is paused
+            video.addEventListener('pause', function() {
+                overlay.style.opacity = '1';
+            });
+            
+            // Show overlay when video ends
+            video.addEventListener('ended', function() {
+                overlay.style.opacity = '1';
+            });
+            
+            // Play/pause video when clicking the overlay
+            overlay.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (video.paused) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            });
+            
+            // Play/pause video when clicking the play button
+            playButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (video.paused) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            });
+        }
+    });
 
     // Contact modal functionality
     const modal = document.getElementById('contactModal');
