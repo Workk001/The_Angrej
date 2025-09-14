@@ -104,9 +104,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Force reload for iOS
                 video.load();
+            } else {
+                // Non-iOS setup - ensure audio works
+                video.removeAttribute('muted'); // Remove muted for non-iOS
+                video.setAttribute('playsinline', 'true');
+                video.setAttribute('webkit-playsinline', 'true');
+                video.setAttribute('x-webkit-airplay', 'allow');
             }
             
-            // iOS-optimized play function
+            // Platform-optimized play function
             function playVideo() {
                 console.log('Attempting to play video...');
                 
@@ -125,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             // Try to unmute after video starts
                             setTimeout(() => {
                                 video.muted = false;
-                                console.log('Video unmuted');
+                                console.log('Video unmuted on iOS');
                             }, 500);
                         }).catch(error => {
                             console.log('iOS video play failed:', error);
@@ -135,12 +141,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         });
                     }
                 } else {
-                    // Non-iOS handling
+                    // Non-iOS handling - ensure audio is enabled
+                    video.muted = false; // Ensure not muted for non-iOS
+                    
                     const playPromise = video.play();
                     
                     if (playPromise !== undefined) {
                         playPromise.then(() => {
-                            console.log('Video started playing');
+                            console.log('Video started playing with audio on non-iOS');
                             overlay.style.opacity = window.innerWidth <= 768 ? '0.1' : '0.3';
                             updatePlayPauseButton();
                         }).catch(error => {
