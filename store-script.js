@@ -67,15 +67,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Video functionality - using native HTML5 controls
+    // Video functionality with platform-specific controls
     const videos = document.querySelectorAll('.video-player');
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    
+    // Add iOS class to body for CSS targeting
+    if (isIOS) {
+        document.body.classList.add('ios-device');
+    }
     
     videos.forEach((video, index) => {
-        console.log(`Setting up video ${index + 1} with native controls`);
+        console.log(`Setting up video ${index + 1} - iOS: ${isIOS}`);
         
         // Ensure videos have proper attributes for autoplay and looping
         video.setAttribute('playsinline', 'true');
         video.setAttribute('webkit-playsinline', 'true');
+        
+        if (isIOS) {
+            // iOS - use native controls
+            video.setAttribute('controls', 'true');
+            console.log('Using native controls for iOS');
+        } else {
+            // Android/Desktop - use custom controls
+            setupCustomControls(video);
+            console.log('Using custom controls for Android/Desktop');
+        }
         
         // Handle video errors
         video.addEventListener('error', function(e) {
@@ -87,6 +103,70 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Video can start playing');
         });
     });
+    
+    // Custom controls setup for non-iOS devices
+    function setupCustomControls(video) {
+        const videoCard = video.closest('.video-card');
+        const playPauseBtn = videoCard.querySelector('.play-pause-btn');
+        const muteBtn = videoCard.querySelector('.mute-btn');
+        
+        if (!playPauseBtn || !muteBtn) return;
+        
+        // Play/Pause functionality
+        playPauseBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (video.paused) {
+                video.play();
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                video.pause();
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        });
+        
+        // Mute/Unmute functionality
+        muteBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (video.muted) {
+                video.muted = false;
+                muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            } else {
+                video.muted = true;
+                muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            }
+        });
+        
+        // Update button states based on video events
+        video.addEventListener('play', function() {
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        });
+        
+        video.addEventListener('pause', function() {
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        });
+        
+        video.addEventListener('volumechange', function() {
+            if (video.muted) {
+                muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            } else {
+                muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            }
+        });
+        
+        // Show controls on video click
+        video.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        });
+    }
 
     // Contact modal functionality
     const modal = document.getElementById('contactModal');
