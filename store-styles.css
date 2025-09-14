@@ -811,7 +811,7 @@ img {
     transform: scale(1.02);
 }
 
-/* Custom Video Controls */
+/* Custom Video Controls for Vimeo */
 .custom-video-controls {
     position: absolute;
     bottom: 0;
@@ -831,37 +831,7 @@ img {
 .control-buttons {
     display: flex;
     align-items: center;
-    gap: 15px;
     justify-content: center;
-}
-
-.play-pause-btn,
-.mute-btn {
-    background: rgba(255, 255, 255, 0.9);
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 18px;
-    color: #333;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.play-pause-btn:hover,
-.mute-btn:hover {
-    background: rgba(255, 255, 255, 1);
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-
-.play-pause-btn:active,
-.mute-btn:active {
-    transform: scale(0.95);
 }
 
 .video-title {
@@ -869,7 +839,12 @@ img {
     font-size: 1.1rem;
     font-weight: 600;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-    margin-left: 10px;
+    text-align: center;
+}
+
+/* Vimeo iframe styling */
+.video-card iframe {
+    border-radius: 12px;
 }
 
 /* iOS specific - hide custom controls */
@@ -1900,13 +1875,6 @@ img {
     .custom-video-controls {
         opacity: 1 !important;
         padding: 15px;
-    }
-    
-    .play-pause-btn,
-    .mute-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 16px;
     }
     
     .video-title {
