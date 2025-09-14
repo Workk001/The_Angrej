@@ -75,104 +75,97 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Video interaction functionality with iOS compatibility
+    // Video interaction functionality with comprehensive iOS support
     const videoCards = document.querySelectorAll('.video-card');
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     
-    videoCards.forEach(card => {
+    console.log('iOS detected:', isIOS);
+    
+    videoCards.forEach((card, index) => {
         const video = card.querySelector('.video-player');
         const overlay = card.querySelector('.video-overlay');
         const playButton = card.querySelector('.play-button');
         
         if (video && overlay && playButton) {
-            // iOS compatibility - ensure video can play inline
-            video.setAttribute('playsinline', 'true');
-            video.setAttribute('webkit-playsinline', 'true');
-            video.setAttribute('x-webkit-airplay', 'allow');
+            console.log(`Setting up video ${index + 1}`);
             
-            // Remove any autoplay or muted attributes that might interfere
-            video.removeAttribute('autoplay');
-            video.removeAttribute('muted');
-            video.removeAttribute('loop');
-            
-            // Force load video for iOS
-            video.load();
-            
-            // Video play/pause toggle function
-            function toggleVideoPlayback() {
-                console.log('Toggling video playback, current state:', video.paused ? 'paused' : 'playing');
+            // iOS-specific setup
+            if (isIOS) {
+                // Set all iOS-required attributes
+                video.setAttribute('playsinline', 'true');
+                video.setAttribute('webkit-playsinline', 'true');
+                video.setAttribute('x-webkit-airplay', 'allow');
+                video.setAttribute('muted', 'true'); // Start muted for iOS
+                video.setAttribute('preload', 'none'); // Don't preload on iOS
                 
-                if (video.paused) {
-                    // Play video
-                    if (isIOS) {
-                        // iOS specific handling
-                        video.load();
-                        
-                        // Wait for video to be ready
-                        const tryPlay = () => {
-                            if (video.readyState >= 2) {
-                                video.play().then(() => {
-                                    console.log('Video started playing on iOS');
-                                    overlay.style.opacity = '0.3';
-                                    updatePlayPauseButton();
-                                }).catch(error => {
-                                    console.log('iOS video play failed:', error);
-                                    // Try one more time after a short delay
-                                    setTimeout(() => {
-                                        video.play().then(() => {
-                                            console.log('Video started playing on iOS (retry)');
-                                            overlay.style.opacity = '0.3';
-                                            updatePlayPauseButton();
-                                        }).catch(err => {
-                                            console.log('iOS video play failed (retry):', err);
-                                            overlay.innerHTML = '<div class="play-button play">▶</div><div class="play-text">PLAY</div><p>Tap to play video</p>';
-                                        });
-                                    }, 500);
-                                });
-                            } else {
-                                // Wait for video to load
-                                video.addEventListener('canplay', tryPlay, { once: true });
-                            }
-                        };
-                        
-                        tryPlay();
-                    } else {
-                        // Non-iOS handling
-                        if (video.readyState >= 2) {
-                            const playPromise = video.play();
+                // Remove any problematic attributes
+                video.removeAttribute('autoplay');
+                video.removeAttribute('loop');
+                
+                // Force reload for iOS
+                video.load();
+            }
+            
+            // iOS-optimized play function
+            function playVideo() {
+                console.log('Attempting to play video...');
+                
+                if (isIOS) {
+                    // iOS requires user interaction and muted start
+                    video.muted = true;
+                    
+                    const playPromise = video.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            console.log('Video started playing on iOS (muted)');
+                            overlay.style.opacity = window.innerWidth <= 768 ? '0.1' : '0.3';
+                            updatePlayPauseButton();
                             
-                            if (playPromise !== undefined) {
-                                playPromise.then(() => {
-                                    console.log('Video started playing');
-                                    overlay.style.opacity = '0.3';
-                                    updatePlayPauseButton();
-                                }).catch(error => {
-                                    console.log('Video play failed:', error);
-                                    overlay.innerHTML = '<div class="play-button play">▶</div><div class="play-text">PLAY</div><p>Tap to play video</p>';
-                                });
-                            }
-                        } else {
-                            video.addEventListener('canplay', function() {
-                                const playPromise = video.play();
-                                if (playPromise !== undefined) {
-                                    playPromise.then(() => {
-                                        console.log('Video started playing after load');
-                                        overlay.style.opacity = '0.3';
-                                        updatePlayPauseButton();
-                                    }).catch(error => {
-                                        console.log('Video play failed after load:', error);
-                                        overlay.innerHTML = '<div class="play-button play">▶</div><div class="play-text">PLAY</div><p>Tap to play video</p>';
-                                    });
-                                }
-                            }, { once: true });
-                        }
+                            // Try to unmute after video starts
+                            setTimeout(() => {
+                                video.muted = false;
+                                console.log('Video unmuted');
+                            }, 500);
+                        }).catch(error => {
+                            console.log('iOS video play failed:', error);
+                            
+                            // Show error message
+                            overlay.innerHTML = '<div class="play-button play">▶</div><div class="play-text">TAP TO PLAY</div><p>Tap to play video</p>';
+                        });
                     }
                 } else {
-                    // Pause video
-                    video.pause();
-                    console.log('Video paused');
-                    overlay.style.opacity = '1';
-                    updatePlayPauseButton();
+                    // Non-iOS handling
+                    const playPromise = video.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            console.log('Video started playing');
+                            overlay.style.opacity = window.innerWidth <= 768 ? '0.1' : '0.3';
+                            updatePlayPauseButton();
+                        }).catch(error => {
+                            console.log('Video play failed:', error);
+                            overlay.innerHTML = '<div class="play-button play">▶</div><div class="play-text">PLAY</div><p>Tap to play video</p>';
+                        });
+                    }
+                }
+            }
+            
+            // Function to pause video
+            function pauseVideo() {
+                video.pause();
+                overlay.style.opacity = '1';
+                updatePlayPauseButton();
+            }
+            
+            // Main toggle function
+            function toggleVideoPlayback() {
+                console.log('Video toggle clicked, paused:', video.paused);
+                
+                if (video.paused) {
+                    playVideo();
+                } else {
+                    pauseVideo();
                 }
             }
             
@@ -236,38 +229,56 @@ document.addEventListener('DOMContentLoaded', function() {
                 overlay.innerHTML = '<div class="play-button">⚠️</div><p>Video unavailable</p>';
             });
             
-            // iOS requires user interaction - use touchstart for better compatibility
-            overlay.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                toggleVideoPlayback();
-            }, { passive: false });
-            
-            // Play/pause video when clicking the overlay
-            overlay.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                toggleVideoPlayback();
-            });
-            
-            // Play/pause video when clicking the play button
-            playButton.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                toggleVideoPlayback();
-            }, { passive: false });
-            
-            playButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                toggleVideoPlayback();
-            });
-            
-            // Additional iOS touch events
-            video.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                toggleVideoPlayback();
-            }, { passive: false });
+            // iOS-specific event handling
+            if (isIOS) {
+                // Use touchstart for iOS
+                overlay.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('iOS touchstart on overlay');
+                    toggleVideoPlayback();
+                }, { passive: false });
+                
+                playButton.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('iOS touchstart on button');
+                    toggleVideoPlayback();
+                }, { passive: false });
+                
+                video.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('iOS touchstart on video');
+                    toggleVideoPlayback();
+                }, { passive: false });
+                
+                // Also add click as fallback
+                overlay.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('iOS click on overlay');
+                    toggleVideoPlayback();
+                });
+                
+                playButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('iOS click on button');
+                    toggleVideoPlayback();
+                });
+            } else {
+                // Standard click events for non-iOS
+                overlay.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleVideoPlayback();
+                });
+                
+                playButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleVideoPlayback();
+                });
+            }
         }
     });
 
